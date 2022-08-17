@@ -1,4 +1,2 @@
 import os 
-#import god
-
-print("you are god")
+print("bro you sucks ");
