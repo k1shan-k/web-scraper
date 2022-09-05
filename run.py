@@ -109,7 +109,7 @@
 # if (b in a):
 #     print("yes is in the list")
 # else:
-#     print("americans go go go")
+#     print("americans go go")
 
 a = int(input("please enter the marks of kishan: \n"))
 
