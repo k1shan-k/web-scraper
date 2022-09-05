@@ -1,117 +1,80 @@
-# # # # from datetime import date
-# # # #
-# # # # letter = '''Dear, <|name|>
-# # # # You are selected
-# # # # date: <|Date|>'''
-# # # #
-# # # # a = input("what is your name ?\n ")
-# # # #
-# # # # b = str(date.today())
-# # # #
-# # # # letter = letter.replace("<|name|>", a)
-# # # # letter = letter.replace("<|Date|>", b)
-# # # #
-# # # # print(letter)
-# # #
-# # # test = "bro wtf are you talking  about"
-# # #
-# # # piss = test.replace("  " , " ")
-# # #
-# # # print(piss)
-# #
-# # a = min(2,54,56)
-# # #b = max[34,3453,54]
-# #
-# # print(a)
-# # #print(b)
-# #
-# a=[]
-# for i  in range(6):
-#     l=int(input("please enter the marks of student"))
-#     a.append(l)
-# a.sort()
-# print(a)
+#coding: utf-8
 
+""" 
+    Scrape an HTML file to extract relevant parts   
+  
+    The scraping configuration is a parameter to each of its public methods.
+    DEPENDENCIES:
+        * lxml
+        * re
+"""
 
-# import requests
-# a=[]
-# for i in range(2):
-#     test = requests.get("https://ipinfo.io")
-#     real = test.json()
-#     a.append(real['ip'])
-# print(a)
+from lxml import html
+import re
 
+if (__name__) = (__main__)
+    def scrape(fd, conf):
+        return scrapes(fd.read(), conf)
+        
+    def scrapes(html_string, conf):
+        html_tree = html.fromstring(html_string)
+        return process(html_tree, html_string, conf)
 
-# list = [23,44,43]
-#
-# list.sort()
-#
-# print(list)
-# m = {
-#     "kishan" : "greatest haxxor",
-#      "avnish" : "head of ceo"
-# }
-#
-# print(m["kishan"])
+    def process(html_tree, html_string, conf):
+        result = {}
+        for field in conf:
+        #extract field content with xpath or regexp:
+            scraped = None
+            if 'xpath' in conf[field]:
+                xpath = conf[field]['xpath']
+                scraped = html_tree.xpath(xpath)
+                if isinstance(scraped, list): #element list
+                    try:
+                        scraped = map(lambda x : x.text, scraped)
+                    except:
+                        pass
+            elif 'regexp' in conf[field]:
+                regexp = conf[field]['regexp']
+                scraped = re.findall(regexp, html_string)
+        
+            if scraped is not None:
+            #encode field if character encoding is defined:
+                if 'encoding' in conf[field]:
+                    encoding = conf[field]['encoding']
+                    if encoding is not None:
+                        if isinstance(scraped, list): #list value
+                            try:
+                                scraped = map(lambda x : x.decode(encoding), scraped)
+                            except Exception as e:
+                                print "Error decoding %s field: %s" % (field, e)
+                        else: #single value
+                            try:
+                                scraped = scraped.decode(encoding)
+                            except Exception as e:
+                                print "Error decoding %s field: %s" % (field, e)
+    
+            #apply transformations (if defined)
+                if 'transf' in conf[field]:
+                #apply transformations in chain:
+                    for func in conf[field]['transf']:
+                        if isinstance(scraped, list): #list value
+                            try:
+                                scraped = map(func, scraped)
+                            except Exception as e:
+                                print "Error applying function %s to element list: %s" % (func, e)
+                                scraped = None
+                                break #dont include erroneous field
+                        else: #single value:
+                            try:
+                                scraped = func(scraped)
+                            except Exception as e:
+                                print "Error applying func %s to field value %s" % (func, scraped)
+                                scraped = None
+                                break #dont include erroneous field
+                    if scraped is None: #some error occurred as a result of applying transformations
+                        if 'default' in conf[field]:
+                            scraped = conf[field]['default']
+            result[field] = scraped
 
-
-#
-# a = int(input("any random value please:"))
-# if(a<4):
-#     print("we are talking about 4")
-# elif(a>50):
-#     print("we are talking about 50")
-#
-# else:
-#     print("nigger")
-
-
-# a = int(input("Please enter your age : "))
-#
-# if (a>=18 or a<60):
-#     print("welcome to bar sir")
-# else:
-#     print("kido")
-#
-#
-# import requests
-#
-# kishan = requests.get("https://ipinfo.io")
-#
-# print(kishan.json())
-
-# text = input("enter your comment please: ")
-#
-# spam = False
-#
-# if ("money the god" in text):
-#     spam = True
-# elif ("buy now" in text):
-#     spam = True
-# else:
-#     print("you are sexy")
-#
-# a = input("What is your username: \n")
-#
-# b = len(a)
-#
-# if (b<=10):
-#
-#     print("please enter username (must be more then 10) :\n")
-# else:
-#     print("bro you are god")
-# #print(b)
-#
-# a = [ "kishan", "dada", "me"]
-#
-# b = input("please enter any name")
-#
-# if (b in a):
-#     print("yes is in the list")
-# else:
-#     print("americans go go")
-
-a = int(input("please enter the marks of kishan: \n"))
-
-if (a>90<100):
-    print("you ")
+        return result	
+    
