@@ -8,9 +8,11 @@
         * lxml
         * re
 """
-
+from art import *
 from lxml import html
 import re
+
+print(text2art("web scraper 1.0"))
 
 if (__name__) = (__main__)
     def scrape(fd, conf):
