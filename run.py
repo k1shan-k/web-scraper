@@ -14,7 +14,7 @@ import re
 
 print(text2art("web scraper 1.0"))
 
-if 1=1:
+if True :
     try:
         def scrape(fd, conf):
             return scrapes(fd.read(), conf)
