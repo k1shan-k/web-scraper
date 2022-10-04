@@ -14,7 +14,7 @@ import re
 
 print(text2art("web scraper 1.0"))
 
-if True :
+if T :
     try:
         def scrape(fd, conf):
             return scrapes(fd.read(), conf)
@@ -49,12 +49,12 @@ if True :
                                 try:
                                     scraped = map(lambda x : x.decode(encoding), scraped)
                                 except Exception as e:
-                                    print "Error decoding %s field: %s" % (field, e)
+                                    print ("Error decoding %s field: %s") % (field, e)
                             else: #single value
                                 try:
                                     scraped = scraped.decode(encoding)
                                 except Exception as e:
-                                    print "Error decoding %s field: %s" % (field, e)
+                                    print ("Error decoding %s field: %s") % (field, e)
     
             #apply transformations (if defined)
                     if 'transf' in conf[field]:
@@ -64,14 +64,14 @@ if True :
                                 try:
                                     scraped = map(func, scraped)
                                 except Exception as e:
-                                    print "Error applying function %s to element list: %s" % (func, e)
+                                    print ("Error applying function %s to element list: %s") % (func, e)
                                     scraped = None
                                     break #dont include erroneous field
                             else: #single value:
                                 try:
                                     scraped = func(scraped)
                                 except Exception as e:
-                                    print "Error applying func %s to field value %s" % (func, scraped)
+                                    print ("Error applying func %s to field value %s") % (func, scraped)
                                     scraped = None
                                     break #dont include erroneous field
                         if scraped is None: #some error occurred as a result of applying transformations
@@ -80,5 +80,5 @@ if True :
                 result[field] = scraped
 
             return result	
-    except:
-        "Error by machine"
+    except Exception as e:
+            print("Error by machine")
