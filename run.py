@@ -14,7 +14,7 @@ from art import *
 from lxml import html
 import re
 
-print(text2art("web scraper 1.0"))
+print(text2art("web scraper 1.1"))
 
 if True :
     try:
