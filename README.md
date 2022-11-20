@@ -8,7 +8,8 @@ Following project is an advance python web-scraper.
 
 1. CLI web req. with content being saved on .html file
 2. Bypass rate limit 
-3. works with user session, anti scrapers bypass
+# Plan to make it 
+works with user session, anti scrapers bypass
 
 
 # Next update - every 30 days 
